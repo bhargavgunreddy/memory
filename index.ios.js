@@ -20,35 +20,33 @@ export default class FirstProject extends Component {
 
     constructor(props) {
       super(props);
-      this.state = {
-        uri: "",
-        memoryInfo: []
-      }
-    }
-
-    constructMemory() {
-      return (
-            <View>
-              <Image source = { require('./rajni.jpg')} style = {styles.mypic}></Image>
-              <ScrollView style = {{width:150, height:150}}>
-                {this.props.memoryInfo.map(this.picDescription)}
-              </ScrollView>
-            </View>
-        );
+      var self = this;
+      
     }
 
     picDescription(item, index) {
       return (<Text key = {item + index} style = {styles.welcome}>{item}</Text>);
     }
 
+    constructMemory(item, index) {
+       
+        return (
+            <View key = {index} style={{margin:20, flex: 1, flexDirection: 'row', borderWidth:1}}>
+              <Image source = { require('./rajni.jpg')} style = {styles.mypic}></Image>
+              <ScrollView>
+                {item.memoryInfo.map(this.picDescription)}
+              </ScrollView>
+            </View>
+             
+        );
+    }
+
+
     render() {
-      console.log("this.props --> ", this.props.memoryInfo);
       return (
       <View style={{flex: 3, backgroundColor: 'gray', borderWidth:1}}>
-          <View style={{margin:20, flex: 1, flexDirection: 'row', borderWidth:1}}>
-            
-          </View>
-          <View style={{margin:20, flex: 1, flexDirection: 'row'}}>
+            {this.props.memories.map(this.constructMemory.bind(this))}
+           <View style={{margin:20, flex: 1, flexDirection: 'row'}}>
             <MapView style={{width:150, height:150, flex:1, margin: 1, padding: 1}} 
             showsUserLocation = {true} showPointsOfInterest = {false}
              zoomEnabled={true}
@@ -70,14 +68,31 @@ export default class FirstProject extends Component {
   
 }
 
-FirstProject.propTypes = {
-  uri: React.PropTypes.string,
-  memoryInfo: React.PropTypes.array
-};
+// FirstProject.propTypes = {
+//   memories: React.PropTypes.arrayOf(
+//                   React.PropTypes.shape({
+//                       uri: React.PropTypes.string.isRequired,
+//                       memoryInfo: React.PropTypes.array.isRequired,
+//                   })
+//             )
+// };
 
 FirstProject.defaultProps = {
-  uri: "rajni.jpg",
-  memoryInfo: ["Pic of Rajni", "SuperStar", "10 Awards", "10 crores"]
+  memories: [
+              {
+              "uri": "rajni.jpg",
+              "memoryInfo": ["Pic of Rajni", "SuperStar", "10 Awards", "10 crores"]  
+              },
+              {
+              "uri": "rajni.jpg",
+              "memoryInfo": ["Pic of Rajni", "SuperStar", "10 Awards", "10 crores"]  
+              },
+              {
+              "uri": "rajni.jpg",
+              "memoryInfo": ["Pic of Rajni", "SuperStar", "10 Awards", "10 crores"]  
+              }
+            ]
+  
 };
 
 const styles = StyleSheet.create({
@@ -102,5 +117,7 @@ const styles = StyleSheet.create({
     height: 150,
   }
 });
+
+//// {this.props.memories.map(this.constructMemory)}
 
 AppRegistry.registerComponent('FirstProject', () => FirstProject);
